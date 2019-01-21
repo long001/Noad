@@ -1,0 +1,71 @@
+::-webkit-scrollbar {
+  width: 0;
+}
+
+body {
+  width: 270px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.noad-input {
+  display: inline-block;
+  width: 160px;
+  line-height: 30px;
+  padding: 0 10px;
+  outline: none;
+  border: 1px solid #c8cccf;
+  border-radius: 4px;
+  color: #6a6f77;
+  transition: border-color 0.3s;
+}
+
+.noad-input:hover, .noad-input:focus {
+  border-color: #40a9ff;
+}
+
+.noad-btn {
+  display: inline-block;
+  width: 60px;
+  line-height: 30px;
+  margin-left: 16px;
+  text-align: center;
+  background: #1890ff;
+  color: white;
+  border-radius: 4px;
+  transition: background 0.3s;
+  cursor: pointer;
+  user-select: none;
+}
+
+.noad-btn:hover {
+  background: #40a9ff;
+}
+
+.noad-customClass-list {
+  width: 260px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  border-radius: 4px;
+  border: 1px solid #d9d9d9;
+  color: #474747;
+  list-style: none;
+}
+
+.noad-customClass-list-item {
+  padding: 8px 16px;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.noad-customClass-list-item:last-child {
+  border-bottom: 0;
+}
+
+.remove-btn {
+  color: #40a9ff;
+  float: right;
+  cursor: pointer;
+  user-select: none;
+}
