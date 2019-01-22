@@ -1,44 +1,45 @@
 const querySelector = document.querySelector.bind(document)
+const ul = querySelector('#selectorList')
+const noDataText = '<li class="selector-list-item">暂无过滤规则</li>'
 
-querySelector('#addBtn').addEventListener('click', function () {
-  const selector = querySelector('#selectorInput').value.trim()
-  if (!selector) return
-
-
-  querySelector('#selectorList').appendChild(createListItem(selector))
-
-
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, { action: 'addSelector', selector })
-  })
+// 页面加载时渲染规则列表
+getSelectors().then(function (selectors) {
+  if (selectors.length === 0) ul.innerHTML = noDataText
+  else {
+    const fragment = document.createDocumentFragment()
+    selectors.forEach(function (selector) {
+      fragment.appendChild(createListItem(selector))
+    })
+    ul.appendChild(fragment)
+  }
 })
 
-function createListItem (innerHtml) {
-  const li = document.createElement('li')
-  li.className = 'selector-list-item'
-  li.innerHTML = innerHtml
+// 点击添加按钮向DOM添加一行li并存储到storage
+querySelector('#addBtn').addEventListener('click', function () {
+  const input = querySelector('#selectorInput')
+  const selector = input.value.trim()
+  if (!selector) return
 
-  const removeBtn = document.createElement('a')
-  removeBtn.className = 'remove-btn'
-  removeBtn.innerHTML = '移除'
-  li.appendChild(removeBtn)
+  if (ul.innerHTML === noDataText) ul.innerHTML = ''
+  ul.appendChild(createListItem(selector))
+  addSelector(selector)
 
-  return li
-}
+  // 清空输入框并且列表滚动到底部
+  input.value = ''
+  ul.scrollTop = ul.scrollHeight
+})
 
-function renderList (selectors) {
+// 点击移除按钮移除该行li并从storage移除该规则
+ul.addEventListener('click', function ({ target }) {
+  if (target.className === 'remove-btn') {
+    const li = target.parentNode
+    ul.removeChild(li)
+    if (ul.children.length === 0) ul.innerHTML = noDataText
+    removeSelector(li.childNodes[0].textContent)
+  }
+})
 
-  const fragment = document.createDocumentFragment()
-  
-  console.log(selectors)
-  selectors.forEach(function (selector) {
-    const li = document.createElement('li')
-    li.innerHTML = selector
-    fragment.appendChild(li)
-  })
+querySelector('#clearBtn').addEventListener('click', function () {
+  chrome.storage.sync.set({ selectors: [] })
+})
 
-  const ul = querySelector('#selectorList')
-  console.dir(fragment)
-  console.log(fragment.innerHTML)
-  ul.innerHTML = fragment
-}

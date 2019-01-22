@@ -3,8 +3,8 @@
 }
 
 body {
-  width: 270px;
-  padding: 5px 10px;
+  width: 300px;
+  padding: 0 5px 10px;
   font-size: 14px;
 }
 
@@ -43,7 +43,7 @@ body {
 }
 
 .selector-list {
-  width: 260px;
+  width: 290px;
   max-height: 200px;
   overflow-y: auto;
   margin: 0;
