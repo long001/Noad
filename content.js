@@ -1,47 +1,67 @@
-
 const storage = chrome.storage.sync
 
-function getAdsList () {
-  let adsSelectors = [
-    '.adsbygoogle',
-    '.pc_ad',
-    '.ps_1',
-    '.ps_2',
-    '.ps_3',
-    '.ps_4',
-    '.ps_5',
-    '.ps_6',
-    '.ps_7',
-    '.ps_26',
-    '.ps_27'
-  ]
-  storage.get('customSelectors', function ({ customSelectors }) {
-    if (customSelectors.length) adsSelectors = adsSelectors.concat(customSelectors)
-  })
-  
- /* const adsList = []
-  adsSelectors.forEach(function (selector) {
-    let elements = document.querySelectorAll(selector)
-    if (elements) Array.from(elements).forEach(function (element) {
-      adsList.push(element)
+storage.clear()
+const defaultSelectors = [
+  // google
+  '.adsbygoogle',
+  '[id^=google_ads_iframe]',
+  // 知乎
+  '.TopstoryItem--advertCard',
+  'img[alt=广告]',
+  // 其他
+  '.pc_ad',
+  '[class^=ps_]'
+].join(',')
+
+function getSelectors () {
+  return new Promise(function (resolve) {
+    storage.get('selectors', function ({ selectors }) {
+      if (selectors) resolve(selectors)
+      resolve([])
     })
   })
-  return adsList */
- return adsSelectors.join(',')
 }
 
-function clean () {
-  const ads = getAdsList()
+/**
+ * @param selectors {Array}
+ */
+function setSelectors (selectors) {
+  storage.set({ selectors })
+}
 
+async function addSelector (selector) {
+  const selectors = await getSelectors()
+  selectors.push(selector)
+  return new Promise(function (resolve) {
+    storage.set({ selectors }, resolve)
+  })
+}
+
+async function removeSelector (index) {
+  const selectors = await getSelectors()
+  const newSelectors = selectors.filter(function (selector, idx) {
+    return idx !== index
+  })
+
+  return new Promise(function (resolve) {
+    storage.set({ selectors: newSelectors }, resolve)
+  })
+}
+
+requestAnimationFrame(async function () {
+  const selectorList = await getSelectors()
+  const selectors = selectorList.join(',') || defaultSelectors
   const style = document.createElement('style')
-  style.innerHTML = ads + '{ display:none }'
+  style.innerHTML = selectors + '{ display:none !important }'
+
   document.head.appendChild(style)
+})
 
-/*  if (ads.length) {
-    ads.forEach(function (ad) {
-      ad.parentNode.removeChild(ad)
+chrome.runtime.onMessage.addListener(function ({ action, selector }, sender, sendResponse) {
+  window[action](selector).then(function () {
+    getSelectors().then(selectors => {
+      sendResponse(selectors)
     })
-  } */
-}
-
-requestAnimationFrame(clean)
+  })
+  return true
+})

@@ -8,7 +8,7 @@ body {
   font-size: 14px;
 }
 
-.noad-input {
+.input {
   display: inline-block;
   width: 160px;
   line-height: 30px;
@@ -20,11 +20,11 @@ body {
   transition: border-color 0.3s;
 }
 
-.noad-input:hover, .noad-input:focus {
+.input:hover, .input:focus {
   border-color: #40a9ff;
 }
 
-.noad-btn {
+.btn {
   display: inline-block;
   width: 60px;
   line-height: 30px;
@@ -38,11 +38,11 @@ body {
   user-select: none;
 }
 
-.noad-btn:hover {
+.btn:hover {
   background: #40a9ff;
 }
 
-.noad-customClass-list {
+.selector-list {
   width: 260px;
   max-height: 200px;
   overflow-y: auto;
@@ -54,12 +54,12 @@ body {
   list-style: none;
 }
 
-.noad-customClass-list-item {
+.selector-list-item {
   padding: 8px 16px;
   border-bottom: 1px solid #d9d9d9;
 }
 
-.noad-customClass-list-item:last-child {
+.selector-list-item:last-child {
   border-bottom: 0;
 }
 

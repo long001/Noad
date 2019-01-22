@@ -3,22 +3,21 @@
   "description": "去广告插件",
   "version": "0.0.1",
   "manifest_version": 2,
-  "browser_action": {
-    "default_popup": "popup.html",
-    "default_icon": "icon.png"
-  },
   "permissions": [
-    "storage"
+    "storage",
+    "tabs"
   ],
+  "browser_action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": "popup/icon.png"
+  },
   "content_scripts": [
     {
       "matches": [
         "http://*/*",
         "https://*/*"
       ],
-      "js": [
-        "content.js"
-      ],
+      "js": ["content.js"],
       "run_at": "document_end",
       "all_frames": true
     }
