@@ -5,12 +5,39 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-<h3>自定义过滤规则</h3>
-<input class="input" placeholder="添加过滤规则" id="selectorInput">
-<div class="btn" id="addBtn">添加</div>
-<div class="btn" id="clearBtn" style="display: none">清空</div>
-<h3>当前过滤规则：</h3>
-<ul class="selector-list" id="selectorList"></ul>
+
+<div class="flex header">
+  <span><i>Noad</i>广告拦截</span>
+  <div>
+    对当前网站启用
+    <span class="checkbox">
+      <input type="checkbox" class="checkbox-input" checked id="checkbox">
+      <i class="checkbox-label checkbox-label-checked"></i>
+    </span>
+  </div>
+</div>
+
+<div class="flex footer">
+  <span>此页面已拦截 6 条</span>
+  <span class="cursor-pointer" id="collapseBtn">
+    配置规则 <img src="arrow.png" class="icon-img">
+  </span>
+
+</div>
+
+<div class="rule-container" id="ruleContainer">
+  <!--<h3 class="rule-title">当前过滤规则：</h3>-->
+  <input class="rule-input" placeholder="输入过滤规则" id="ruleInput">
+  <div class="add-btn" id="addBtn">添加</div>
+  <ul class="rule-list" id="ruleList"></ul>
+
+  <div class="flex rule-footer">
+    <span class="cursor-pointer">参考文档</span>
+    <span class="cursor-pointer" id="jumpToGitHub">
+      报告错误 <img src="jump.png" class="icon-img"/>
+    </span>
+  </div>
+</div>
 
 <script src="../common/common.js"></script>
 <script src="utils.js"></script>

@@ -29,18 +29,29 @@ async function removeSelector (selectorToRemove) {
 }
 
 /**
+ * 重置到默认规则
+ * @returns {Promise}
+ */
+function resetSelectors () {
+  return new Promise(function (resolve) {
+    storage.set({ selectors: defaultSelectors }, resolve)
+  })
+}
+
+/**
  * 创建带样式和移除按钮的li元素
  * @param {String} innerHtml
  * @returns {Element}
  */
 function createListItem (innerHtml) {
   const li = document.createElement('li')
-  li.className = 'selector-list-item'
+  li.className = 'rule-list-item'
   li.innerHTML = innerHtml
 
   const removeBtn = document.createElement('a')
-  removeBtn.className = 'remove-btn'
+  removeBtn.className = 'btn'
   removeBtn.innerHTML = '移除'
+  removeBtn.action = 'remove'
   li.appendChild(removeBtn)
 
   return li
