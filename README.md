@@ -9,7 +9,7 @@ Chrome浏览器去广告插件
 
 1. 下载 [Noad.crx](https://github.com/yeild/Noad/blob/master/dist/Noad.crx?raw=true)
 2. Chrome中打开chrome://extensions/
-3. 将 *Noad.crx* 拖入页面中
+3. 将 *Noad.crx* 拖入页面中（如遇问题请解压后用开发者模式添加）
 
 #### TODO:
 * 添加更多常见广告选择器到默认列表
