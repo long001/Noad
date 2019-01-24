@@ -64,6 +64,11 @@ querySelector('#jumpToGitHub').addEventListener('click', function () {
   chrome.tabs.create({url: 'https://github.com/yeild/Noad/issues'})
 })
 
+// 跳转到css参考手册
+querySelector('#guideBtn').addEventListener('click', function () {
+  chrome.tabs.create({url: 'http://www.w3school.com.cn/cssref/css_selectors.asp'})
+})
+
 
 function renderList () {
   getSelectors().then(function (selectors) {
