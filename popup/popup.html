@@ -18,7 +18,7 @@
 </div>
 
 <div class="flex footer">
-  <span>此页面已拦截 6 条</span>
+  <span>此页面已拦截 <span id="hiddenAdsCount">0</span> 条</span>
   <span class="cursor-pointer" id="collapseBtn">
     配置规则 <img src="arrow.png" class="icon-img">
   </span>
@@ -26,13 +26,11 @@
 </div>
 
 <div class="rule-container" id="ruleContainer">
-  <!--<h3 class="rule-title">当前过滤规则：</h3>-->
   <input class="rule-input" placeholder="输入过滤规则" id="ruleInput">
   <div class="add-btn" id="addBtn">添加</div>
   <ul class="rule-list" id="ruleList"></ul>
-
   <div class="flex rule-footer">
-    <span class="cursor-pointer">参考文档</span>
+    <span class="cursor-pointer" id="sd">参考文档</span>
     <span class="cursor-pointer" id="jumpToGitHub">
       报告错误 <img src="jump.png" class="icon-img"/>
     </span>
