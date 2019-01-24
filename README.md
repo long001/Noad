@@ -11,5 +11,6 @@ Chrome浏览器去广告插件
 2. Chrome中打开chrome://extensions/
 3. 将 *Noad.crx* 拖入页面中
 
-
-
+#### TODO:
+* 添加更多常见广告选择器到默认列表
+* ajax加载的广告暂还未计算到拦截数量(可以正常拦截)
