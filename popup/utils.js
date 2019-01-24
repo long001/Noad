@@ -29,7 +29,7 @@ async function removeSelector (selectorToRemove) {
 }
 
 /**
- * 重置到默认规则
+ * storage重置到默认规则
  * @returns {Promise}
  */
 function resetSelectors () {
@@ -55,4 +55,19 @@ function createListItem (innerHtml) {
   li.appendChild(removeBtn)
 
   return li
+}
+
+/**
+ * 发送消息到content.js
+ * @param {String} action
+ * @param {Object} [data]
+ */
+function sendMessage (action, data) {
+  return new Promise(function (resolve) {
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, { action, data }, function (res) {
+        resolve(res)
+      })
+    })
+  })
 }

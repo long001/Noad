@@ -1,20 +1,22 @@
 const querySelector = document.querySelector.bind(document)
 const ul = querySelector('#ruleList')
 const noDataText = '<li class="rule-list-item">暂无过滤规则 <a class="btn" id="resetBtn">恢复默认</a></li>'
+const updateContentStyle = sendMessage.bind(null, 'updateContentStyle')
 
 // 渲染规则列表
 renderList()
 
-// 渲染当前页拦截广告数
-sendMessage({ action: 'getAdsCount' })
+// 渲染是否启用的checkbox和当前页拦截广告数
+renderStatus()
 
 // 切换是否对当前网站启用
-querySelector('#checkbox').addEventListener('click', function (e) {
-  const classListAction = e.target.checked ? 'add' : 'remove'
+querySelector('#checkbox').addEventListener('click', function ({ target }) {
+  const classListAction = target.checked ? 'add' : 'remove'
   document.querySelector('.checkbox-label').classList[classListAction]('checkbox-label-checked')
+  sendMessage('toggleEffective', { isEffective: target.checked })
 })
 
-// 展开收起规则配置列表
+// 展开/收起规则列表
 querySelector('#collapseBtn').addEventListener('click', function () {
   querySelector('#ruleContainer').style.display = (this.open = !this.open) ? 'block' : 'none'
 })
@@ -44,12 +46,17 @@ ul.addEventListener('click', function ({ target }) {
   }
 })
 
-// 点击重置按钮时渲染规则列表并更新content样式
+// 点击重置按钮时store恢复默认规则并重新渲染规则列表
 document.addEventListener('click', function (e) {
   if (e.target.id=='resetBtn') resetSelectors().then(function () {
     renderList()
-    updateContentStyle()
+    updateContentStyle() // 更新content样式
   })
+})
+
+// 添加/删除/重置后更新已拦截广告数
+chrome.runtime.onMessage.addListener(function ({ adsCount }) {
+  querySelector('#hiddenAdsCount').innerHTML = adsCount
 })
 
 // 跳转到GitHub isssue
@@ -72,16 +79,12 @@ function renderList () {
   })
 }
 
-function updateContentStyle () {
-  sendMessage({ action: 'updateContentStyle' })
-}
-
-function sendMessage (data) {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, data)
+function renderStatus () {
+  sendMessage('getData').then(function ({ isEffective, adsCount }) {
+    if (!isEffective) {
+      document.querySelector('.checkbox-label').classList.remove('checkbox-label-checked')
+      document.querySelector('#checkbox').checked = false
+    }
+    querySelector('#hiddenAdsCount').innerHTML = adsCount
   })
 }
-
-chrome.runtime.onMessage.addListener(function ({ adsCount }) {
-  querySelector('#hiddenAdsCount').innerHTML = adsCount
-})
