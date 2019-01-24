@@ -26,14 +26,21 @@ querySelector('#addBtn').addEventListener('click', function () {
   const input = querySelector('#ruleInput')
   const selector = input.value.trim()
   if (!selector) return
+  getSelectors().then(function (selectors) {
+    if (selectors.includes(selector)) {
+      input.value = ''
+      input.placeholder = '该规则已存在'
+      return
+    }
+    if (ul.innerHTML === noDataText) ul.innerHTML = ''
+    ul.appendChild(createListItem(selector))
+    addSelector(selector).then(updateContentStyle) //添加成功后content更新页面样式
 
-  if (ul.innerHTML === noDataText) ul.innerHTML = ''
-  ul.appendChild(createListItem(selector))
-  addSelector(selector).then(updateContentStyle) //添加成功后content更新页面样式
-
-  // 清空输入框并且列表滚动到底部
-  input.value = ''
-  ul.scrollTop = ul.scrollHeight
+    // 清空输入框并且列表滚动到底部
+    input.placeholder = '输入过滤规则'
+    input.value = ''
+    ul.scrollTop = ul.scrollHeight
+  })
 })
 
 // 点击移除按钮移除该行li并从storage移除该规则
